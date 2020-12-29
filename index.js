@@ -3,7 +3,7 @@ const foxql = require('@foxql/foxql-server');
 const server = new foxql.server(connection);
 
 server.use('serverOptions', {
-    port : 1923,
+    port : 3000,
     host : '0.0.0.0'
 });
 
