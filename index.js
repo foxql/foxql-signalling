@@ -25,6 +25,10 @@ server.pushEvent(
     require('./src/events/newDoc.js')
 );
 
+server.pushEvent(
+    require('./src/events/getTrends.js')
+);
+
 
 server.open();
 

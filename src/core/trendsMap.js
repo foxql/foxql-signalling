@@ -4,6 +4,7 @@ class TrendsMap {
     timeOut = 1000 * 10;
 
     trendMinLimit = 2;
+    maxListCount = 10;
 
 
     _events = {};
@@ -33,37 +34,37 @@ class TrendsMap {
 
     push (doc)
     {   
-        const title = doc.title;
-        if(this.entrys[title] === undefined) {
-            this.entrys[title] = {
+        const documentId = doc.documentId;
+        if(this.entrys[documentId] === undefined) {
+            this.entrys[documentId] = {
                 doc : doc,
                 count : 1,
                 trend : 0
             };
 
-            this.dropCount(title);
+            this.dropCount(documentId);
 
         }else{
-            this.entrys[title].count += 1;
-            if(this.entrys[title].count > this.trendMinLimit){
-                this.entrys[title].trend += 1;
-                this.emit('newDoc', this.entrys[title]);
+            this.entrys[documentId].count += 1;
+            if(this.entrys[documentId].count > this.trendMinLimit){
+                this.entrys[documentId].trend += 1;
+                this.emit('newDoc', this.entrys[documentId]);
             }
         }
     }
 
 
-    remove(title)
+    remove(documentId)
     {
-        delete this.entrys[title];
+        delete this.entrys[documentId];
     }
 
 
-    dropCount(title)
+    dropCount(documentId)
     {
         setTimeout(()=>{
 
-            let target = this.entrys[title] || false;
+            let target = this.entrys[documentId] || false;
             if(typeof target !== 'object') return false;
 
             target.count -= 1;
@@ -73,23 +74,26 @@ class TrendsMap {
                 if(target.count < this.trendMinLimit) {
                     if(target.trend > 0 && target.count > this.trendMinLimit / 2){
                         this.emit('dropDoc', target);
-                        this.remove(title);
+                        this.remove(documentId);
                     }
                     
                 }
-                this.dropCount(title);
+                this.dropCount(documentId);
             }else{
                 if(target.trend > 0){
                     this.emit('dropDoc', target);
                 }
-                this.remove(title);
+                this.remove(documentId);
             }
 
         }, this.timeOut);
     }
 
 
-
+    list()
+    {
+        return Object.values(this.entrys).slice(0, this.maxListCount);
+    }
 
 
 
