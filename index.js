@@ -1,10 +1,12 @@
 const foxql = require('@foxql/foxql-server');
 const TrendsMap = require('./src/core/trendsMap.js')
+const ActionMap = require('./src/core/actionMap.js')
 
 let server = new foxql.server(connection);
 
 
 server.trends = new TrendsMap();
+server.actions = new ActionMap();
 
 server.trends.on('newDoc', (doc)=>{
     server.io.sockets.emit('newTrendTopic', doc)
@@ -29,6 +31,14 @@ server.pushEvent(
     require('./src/events/getTrends.js')
 );
 
+server.pushEvent(
+    require('./src/events/actionList.js')
+)
+
+server.pushEvent(
+    require('./src/events/search.js')
+)
+
 
 server.open();
 
@@ -36,4 +46,13 @@ server.open();
 async function connection(socket)
 {
     console.log(socket.id, 'Bağlandı.');
+
+    server.actions.new({
+        type : 'new-connection',
+        socketId : socket.id
+    });
+
+    socket.broadcast.emit('actionList', server.actions.list())
+
+    
 }

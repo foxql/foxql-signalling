@@ -1,7 +1,7 @@
 class TrendsMap {
 
     entrys = {}
-    timeOut = 1000 * 10;
+    timeOut = (1000 * 60 * 60);
 
     trendMinLimit = 2;
     maxListCount = 10;

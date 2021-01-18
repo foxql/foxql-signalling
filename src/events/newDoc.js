@@ -1,7 +1,13 @@
 const name = 'newDoc';
 
 exports.listener = (socket, server, data) => {
-    const id = socket.id;
+
+    server.actions.new({
+        type : 'new-document',
+        document : data
+    });
+    
+    socket.broadcast.emit('actionList', server.actions.list());
 
     server.trends.push(data);
 }
