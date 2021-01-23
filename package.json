@@ -1,6 +1,6 @@
 {
   "name": "foxql-backend",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/boraozer/foxql-backend#readme",
   "dependencies": {
-    "@foxql/foxql-server": "^1.0.3"
+    "@foxql/foxql-server": "^1.0.4"
   }
 }
