@@ -28,13 +28,23 @@ class TrendsMap {
         const method = this._events[name] || false;
         if(typeof method != 'function') {return}
         method(data)
-        
+    }
+
+    hash(string)
+    {
+        return string.toLowerCase().replace(/[^a-z0-9]|\s+|\r?\n|\r/gmi,'');
     }
 
 
     push (doc)
     {   
-        const documentId = doc.documentId;
+        let documentId = doc.entryKey || doc.subDocumentId || doc.query || false;
+        if(typeof documentId != 'string'){
+            return false;
+        }
+        
+        documentId = this.hash(documentId);
+
         if(this.entrys[documentId] === undefined) {
             this.entrys[documentId] = {
                 doc : doc,
