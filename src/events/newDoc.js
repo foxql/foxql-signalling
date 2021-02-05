@@ -8,7 +8,5 @@ exports.listener = (socket, server, data) => {
     });
     
     socket.broadcast.emit('actionList', server.actions.list());
-
-    server.trends.push(data);
 }
 exports.name = name;

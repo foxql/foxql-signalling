@@ -5,17 +5,12 @@ const ActionMap = require('./src/core/actionMap.js')
 let server = new foxql.server(connection);
 
 
-server.trends = new TrendsMap();
+server.trends = new TrendsMap([
+    'turkey',
+    'united-states',
+    'united-kingdom'
+]);
 server.actions = new ActionMap();
-
-server.trends.on('newDoc', (doc)=>{
-    server.io.sockets.emit('newTrendTopic', doc)
-})
-
-
-server.trends.on('dropDoc', (doc)=>{
-    server.io.sockets.emit('dropTrendTopic', doc)
-})  
 
 
 server.use('serverOptions', {

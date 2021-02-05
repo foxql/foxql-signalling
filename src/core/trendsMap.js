@@ -1,108 +1,40 @@
+const crawler = require('../utils/trendsCrawler.js')
+
 class TrendsMap {
 
-    entrys = {}
-    timeOut = (1000 * 60 * 60);
-
-    trendMinLimit = 2;
-    maxListCount = 10;
-
-
-    _events = {};
-
-    constructor()
+    trends = {};
+    resource = 'https://trends24.in/'
+ 
+    constructor(locations)
     {
-
-    }
-
-
-    on(name, listener)
-    {
-        if(this._events[name] == undefined) {
-            this._events[name] = listener;
-        }
-    }
-
-
-    emit(name, data)
-    {
-        const method = this._events[name] || false;
-        if(typeof method != 'function') {return}
-        method(data)
-    }
-
-    hash(string)
-    {
-        return string.toLowerCase().replace(/[^a-z0-9]|\s+|\r?\n|\r/gmi,'');
-    }
-
-
-    push (doc)
-    {   
-        let documentId = doc.entryKey || doc.subDocumentId || doc.query || false;
-        if(typeof documentId != 'string'){
-            return false;
-        }
-        
-        documentId = this.hash(documentId);
-
-        if(this.entrys[documentId] === undefined) {
-            this.entrys[documentId] = {
-                doc : doc,
-                count : 1,
-                trend : 0
+        locations.forEach( location => {
+            this.trends[location] = {
+                trends : [],
+                api : this.resource + location
             };
+        });
 
-            this.dropCount(documentId);
+        this.loadTrends();
 
-        }else{
-            this.entrys[documentId].count += 1;
-            if(this.entrys[documentId].count > this.trendMinLimit){
-                this.entrys[documentId].trend += 1;
-                this.emit('newDoc', this.entrys[documentId]);
-            }
+        setInterval(()=>{
+            this.loadTrends();
+            console.log('Trends refresh')
+        }, ((1000 * 60) * 60) * 30 )
+
+    }
+
+    async loadTrends()
+    {
+        for(let key in this.trends) {
+            const target = this.trends[key];
+            this.trends[key].trends = await crawler.parse(target.api);
         }
     }
 
 
-    remove(documentId)
+    list(country)
     {
-        delete this.entrys[documentId];
-    }
-
-
-    dropCount(documentId)
-    {
-        setTimeout(()=>{
-
-            let target = this.entrys[documentId] || false;
-            if(typeof target !== 'object') return false;
-
-            target.count -= 1;
-
-            if(target.count > 0 ) {
-
-                if(target.count < this.trendMinLimit) {
-                    if(target.trend > 0 && target.count > this.trendMinLimit / 2){
-                        this.emit('dropDoc', target);
-                        this.remove(documentId);
-                    }
-                    
-                }
-                this.dropCount(documentId);
-            }else{
-                if(target.trend > 0){
-                    this.emit('dropDoc', target);
-                }
-                this.remove(documentId);
-            }
-
-        }, this.timeOut);
-    }
-
-
-    list()
-    {
-        return Object.values(this.entrys).slice(0, this.maxListCount);
+        return this.trends[country].trends || []
     }
 
 

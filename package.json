@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/boraozer/foxql-backend#readme",
   "dependencies": {
-    "@foxql/foxql-server": "^1.0.4"
+    "@foxql/foxql-server": "^1.0.4",
+    "cheerio": "^1.0.0-rc.5",
+    "node-fetch": "^2.6.1"
   }
 }
