@@ -34,6 +34,9 @@ class TrendsMap {
 
     list(country)
     {
+        if(country == undefined) {
+            return [];
+        }
         return this.trends[country].trends || []
     }
 

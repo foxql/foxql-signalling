@@ -1,8 +1,8 @@
 const name = 'getTrends';
 
-exports.listener = (socket, server, data) => {
+exports.listener = (socket, server, country) => {
     socket.emit(name, 
-        server.trends.list()    
+        server.trends.list(country)    
     )
 }
 exports.name = name;
