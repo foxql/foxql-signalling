@@ -34,10 +34,15 @@ class TrendsMap {
 
     list(country)
     {
-        if(country == undefined) {
+        if(typeof country != 'string') {
             return [];
         }
-        return this.trends[country].trends || []
+        const trends = this.trends[country] ||false;
+        if(!trends) {
+            return [];
+        }
+
+        return trends.trends || []
     }
 
 
