@@ -19,7 +19,7 @@ class TrendsMap {
         setInterval(()=>{
             this.loadTrends();
             console.log('Trends refresh')
-        }, ((1000 * 60) * 60) * 30 )
+        }, 1000 * 60 * 30)
 
     }
 
