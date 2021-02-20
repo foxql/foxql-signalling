@@ -42,10 +42,10 @@ async function connection(socket)
 {
     console.log(socket.id, 'Bağlandı.');
 
-    server.actions.new({
+    /*server.actions.new({
         type : 'new-connection',
         socketId : socket.id
-    });
+    });*/
 
     socket.broadcast.emit('actionList', server.actions.list())
 
