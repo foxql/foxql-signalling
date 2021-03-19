@@ -18,7 +18,7 @@ class actionMap {
 
         this.map[actionString] = true;
 
-        if(this.actions.length >= 10){
+        if(this.actions.length >= 90){
             const targetAction = this.actions.pop();
             delete this.map[this.stringify(targetAction)]
         }

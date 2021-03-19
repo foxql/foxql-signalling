@@ -4,12 +4,13 @@ const ActionMap = require('./src/core/actionMap.js')
 
 let server = new foxql.server(connection);
 
-
+/*
 server.trends = new TrendsMap([
     'turkey',
     'united-states',
     'united-kingdom'
 ]);
+*/
 server.actions = new ActionMap();
 
 
