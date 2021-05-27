@@ -11,12 +11,9 @@ server.use('serverOptions', {
 
 server.open();
 
-
 async function connection(socket)
 {
-    console.log(socket.id, 'Bağlandı.');
+    console.log(socket.id, 'Connected.');
 
     /** Your custom socket listeners... */
-
-    
 }
