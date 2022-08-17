@@ -2,7 +2,9 @@ require('dotenv').config()
 
 const foxql = require('@foxql/foxql-server');
 
-let server = new foxql.server(connection);
+let server = new foxql.server(connection, [
+    'https://foxql-bridge.herokuapp.com' // bridge server url
+]);
 
 server.use('serverOptions', {
     port : process.env.PORT || 3000,
