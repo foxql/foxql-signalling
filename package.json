@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/boraozer/foxql-backend#readme",
   "dependencies": {
-    "@foxql/foxql-server": "^1.1.1",
+    "@foxql/foxql-server": "^1.1.3",
     "dotenv": "^9.0.2"
   }
 }
